@@ -1,7 +1,3 @@
-# Terraform AWS Infrastructure
-
-This repository contains Terraform configurations for AWS infrastructure.
-
 ## Scripts
 
 ### `deploying-s3.tf`
