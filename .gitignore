@@ -1,0 +1,79 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+*.tfplan
+*.tfplan.json
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Terraform directories
+.terraform/
+# Note: .terraform.lock.hcl should be committed to version control
+
+# Credentials and secrets
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+*.env
+.env
+.env.local
+.env.*.local
+secrets.yaml
+secrets.yml
+secrets.json
+*.secret
+*.secrets
+
+# AWS credentials
+.aws/
+aws-credentials
+credentials
+*.credentials
+
+# SSH keys
+.ssh/
+*.pub
+known_hosts
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Logs
+*.log
+logs/
