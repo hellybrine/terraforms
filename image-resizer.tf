@@ -8,7 +8,6 @@ resource "aws_s3_bucket" "image_uploads" {
   }
 }
 
-# Bucket for resized images
 resource "aws_s3_bucket" "resized_images" {
   bucket = "${var.project_name}-resized-images-${random_id.bucket_suffix.hex}"
 
@@ -19,12 +18,10 @@ resource "aws_s3_bucket" "resized_images" {
   }
 }
 
-# Random suffix to ensure bucket name uniqueness
 resource "random_id" "bucket_suffix" {
   byte_length = 4
 }
 
-# Enable versioning on upload bucket (optional, for safety)
 resource "aws_s3_bucket_versioning" "image_uploads" {
   bucket = aws_s3_bucket.image_uploads.id
   versioning_configuration {
@@ -32,7 +29,6 @@ resource "aws_s3_bucket_versioning" "image_uploads" {
   }
 }
 
-# Enable encryption on both buckets
 resource "aws_s3_bucket_server_side_encryption_configuration" "image_uploads" {
   bucket = aws_s3_bucket.image_uploads.id
 
@@ -53,7 +49,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "resized_images" {
   }
 }
 
-# Block public access on upload bucket (private)
 resource "aws_s3_bucket_public_access_block" "image_uploads" {
   bucket = aws_s3_bucket.image_uploads.id
 
@@ -63,7 +58,6 @@ resource "aws_s3_bucket_public_access_block" "image_uploads" {
   restrict_public_buckets = true
 }
 
-# Allow public read access to resized images (so they can be viewed)
 resource "aws_s3_bucket_public_access_block" "resized_images" {
   bucket = aws_s3_bucket.resized_images.id
 
@@ -73,7 +67,6 @@ resource "aws_s3_bucket_public_access_block" "resized_images" {
   restrict_public_buckets = false
 }
 
-# Make resized images bucket publicly readable
 resource "aws_s3_bucket_policy" "resized_images" {
   bucket = aws_s3_bucket.resized_images.id
 
@@ -91,7 +84,6 @@ resource "aws_s3_bucket_policy" "resized_images" {
   })
 }
 
-# CORS configuration for upload bucket (to allow browser uploads)
 resource "aws_s3_bucket_cors_configuration" "image_uploads" {
   bucket = aws_s3_bucket.image_uploads.id
 
@@ -104,9 +96,6 @@ resource "aws_s3_bucket_cors_configuration" "image_uploads" {
   }
 }
 
-# ----------------------------------------------------------------------------
-# IAM Role for Lambda Function
-# ----------------------------------------------------------------------------
 
 # IAM role that Lambda will assume
 resource "aws_iam_role" "image_resizer_lambda" {
@@ -168,9 +157,6 @@ resource "aws_iam_role_policy" "image_resizer_s3_access" {
   })
 }
 
-# ----------------------------------------------------------------------------
-# Lambda Function
-# ----------------------------------------------------------------------------
 
 # Archive the Lambda function code
 # Note: If you've packaged with dependencies using package.sh, 
@@ -211,10 +197,6 @@ resource "aws_lambda_function" "image_resizer" {
     Environment = var.environment
   }
 }
-
-# ----------------------------------------------------------------------------
-# API Gateway
-# ----------------------------------------------------------------------------
 
 # API Gateway REST API
 resource "aws_apigatewayv2_api" "image_resizer_api" {
@@ -279,9 +261,6 @@ resource "aws_apigatewayv2_stage" "default" {
   }
 }
 
-# ----------------------------------------------------------------------------
-# Outputs
-# ----------------------------------------------------------------------------
 
 output "api_endpoint" {
   description = "API Gateway endpoint URL"
