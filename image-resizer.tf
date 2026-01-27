@@ -166,7 +166,7 @@ data "archive_file" "lambda_zip" {
   type        = "zip"
   source_file = "${path.module}/lambda/image_resizer.py"
   output_path = "${path.module}/lambda/image_resizer.zip"
-  
+
   # If you have a pre-packaged zip with dependencies, use this instead:
   # source_dir  = "${path.module}/lambda/package"
   # output_path = "${path.module}/lambda/image_resizer.zip"
@@ -185,10 +185,10 @@ resource "aws_lambda_function" "image_resizer" {
 
   environment {
     variables = {
-      UPLOAD_BUCKET   = aws_s3_bucket.image_uploads.id
-      RESIZED_BUCKET  = aws_s3_bucket.resized_images.id
-      RESIZED_WIDTH   = var.default_resized_width
-      RESIZED_HEIGHT  = var.default_resized_height
+      UPLOAD_BUCKET  = aws_s3_bucket.image_uploads.id
+      RESIZED_BUCKET = aws_s3_bucket.resized_images.id
+      RESIZED_WIDTH  = var.default_resized_width
+      RESIZED_HEIGHT = var.default_resized_height
     }
   }
 
@@ -221,8 +221,8 @@ resource "aws_apigatewayv2_integration" "lambda_integration" {
   api_id           = aws_apigatewayv2_api.image_resizer_api.id
   integration_type = "AWS_PROXY"
 
-  integration_method   = "POST"
-  integration_uri      = aws_lambda_function.image_resizer.invoke_arn
+  integration_method     = "POST"
+  integration_uri        = aws_lambda_function.image_resizer.invoke_arn
   payload_format_version = "2.0"
 }
 

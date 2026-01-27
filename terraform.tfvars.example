@@ -1,0 +1,58 @@
+# AWS Credentials
+aws_access_key = "your-access-key"
+aws_secret_key = "your-secret-key"
+
+# Project Settings
+project_name = "my-project"
+environment  = "dev"
+
+# Image Resizer Settings (if using image-resizer.tf)
+default_resized_width  = 800
+default_resized_height = 600
+
+#####################################################################
+# Cost Alerter Configuration
+#####################################################################
+
+# Enable/disable the cost alerter
+cost_alerter_enabled = true
+
+# Cost threshold in USD that triggers a warning alert
+cost_alert_threshold = 10
+
+# Critical threshold - triggers urgent alert and optional auto-nuke
+cost_critical_threshold = 50
+
+# ntfy Configuration
+# Topic name - subscribe at https://ntfy.sh/<your-topic>
+ntfy_topic = "my-aws-cost-alerts"
+
+# ntfy server URL (use https://ntfy.sh for public, or your self-hosted server)
+ntfy_server = "https://ntfy.sh"
+
+# Optional: ntfy authentication token for private topics
+# ntfy_token = "tk_your_token_here"
+
+# How often to check costs (AWS EventBridge schedule expression)
+# Examples:
+#   "rate(1 hour)"    - Every hour
+#   "rate(6 hours)"   - Every 6 hours (default)
+#   "rate(1 day)"     - Once per day
+#   "cron(0 9 * * ? *)" - Every day at 9 AM UTC
+cost_check_schedule = "rate(6 hours)"
+
+# Send daily summary even when costs are under threshold
+send_daily_summary = false
+
+#####################################################################
+# DANGER ZONE - Auto Resource Cleanup
+#####################################################################
+# WARNING: These settings can TERMINATE your AWS resources!
+# Only enable if you understand the consequences.
+
+# Enable automatic resource cleanup when critical threshold is exceeded
+enable_auto_nuke = false
+
+# Dry run mode - when true, only lists resources without terminating
+# Set to false to actually terminate resources (DANGEROUS!)
+nuke_dry_run = true
